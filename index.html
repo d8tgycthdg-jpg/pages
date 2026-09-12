@@ -478,79 +478,137 @@
     </div>
     <button class="floating-download-btn" id="floatingBtn">📘 Free Guide</button>
 
-    <script>
-        // ========================================
-        // 1. LÓGICA DE LA CALCULADORA
-        // ========================================
-        const depositInput = document.getElementById('depositInput');
-        const leverageSelect = document.getElementById('leverageSelect');
-        const positionSizeDisplay = document.getElementById('positionSize');
+   <script>
+    // ========================================
+    // 1. LÓGICA DE LA CALCULADORA
+    // ========================================
+    const depositInput = document.getElementById('depositInput');
+    const leverageSelect = document.getElementById('leverageSelect');
+    const positionSizeDisplay = document.getElementById('positionSize');
 
-        function calculatePositionSize() {
-            const deposit = parseFloat(depositInput.value) || 0;
-            const leverage = parseInt(leverageSelect.value) || 1;
-            const positionSize = deposit * leverage;
-            positionSizeDisplay.textContent = '$' + positionSize.toLocaleString('en-US');
-        }
+    function calculatePositionSize() {
+        const deposit = parseFloat(depositInput.value) || 0;
+        const leverage = parseInt(leverageSelect.value) || 1;
+        const positionSize = deposit * leverage;
+        positionSizeDisplay.textContent = '$' + positionSize.toLocaleString('en-US');
+    }
 
+    if (depositInput && leverageSelect) {
         depositInput.addEventListener('input', calculatePositionSize);
         leverageSelect.addEventListener('change', calculatePositionSize);
-        calculatePositionSize(); // Cálculo inicial
+        calculatePositionSize();
+    }
 
-        // ========================================
-        // 2. LÓGICA DEL POPUP
-        // ========================================
-        const PDF_URL = 'Begginers_Forex_Guide.pdf'; // ⚠️ CAMBIA ESTO por la URL real de tu PDF
-        const POPUP_DELAY = 5000; 
+    // ========================================
+    // 2. LÓGICA DEL POPUP
+    // ========================================
+    const PDF_URL = 'Begginner_Forex_Guide.pdf';
+    const POPUP_DELAY = 5000;
 
-        const popup = document.getElementById('guidePopup');
-        const popupForm = document.getElementById('popupForm');
-        const popupSuccess = document.getElementById('popupSuccess');
-        const emailForm = document.getElementById('emailForm');
-        const emailInput = document.getElementById('emailInput');
-        const popupClose = document.getElementById('popupClose');
-        const floatingBtn = document.getElementById('floatingBtn');
-        const downloadLink = document.getElementById('downloadLink');
+    const popup = document.getElementById('guidePopup');
+    const popupForm = document.getElementById('popupForm');
+    const popupSuccess = document.getElementById('popupSuccess');
+    const emailForm = document.getElementById('emailForm');
+    const emailInput = document.getElementById('emailInput');
+    const popupClose = document.getElementById('popupClose');
+    const floatingBtn = document.getElementById('floatingBtn');
+    const downloadLink = document.getElementById('downloadLink');
 
+    if (downloadLink) {
         downloadLink.href = PDF_URL;
+    }
 
-        function openPopup() { popup.classList.add('active'); document.body.style.overflow = 'hidden'; }
-        function closePopup() { popup.classList.remove('active'); document.body.style.overflow = ''; }
+    function openPopup() { 
+        if (popup) {
+            popup.classList.add('active'); 
+            document.body.style.overflow = 'hidden'; 
+        }
+    }
+    
+    function closePopup() { 
+        if (popup) {
+            popup.classList.remove('active'); 
+            document.body.style.overflow = ''; 
+        }
+    }
 
-        const hasDownloaded = localStorage.getItem('guideDownloaded');
-        if (!hasDownloaded) { setTimeout(openPopup, POPUP_DELAY); }
+    // Mostrar popup automáticamente
+    const hasDownloaded = localStorage.getItem('guideDownloaded');
+    if (!hasDownloaded && popup) { 
+        setTimeout(openPopup, POPUP_DELAY); 
+    }
 
+    // Event listeners
+    if (popupClose) {
         popupClose.addEventListener('click', closePopup);
-        popup.addEventListener('click', (e) => { if (e.target === popup) closePopup(); });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePopup(); });
+    }
+    
+    if (popup) {
+        popup.addEventListener('click', (e) => { 
+            if (e.target === popup) closePopup(); 
+        });
+    }
+    
+    document.addEventListener('keydown', (e) => { 
+        if (e.key === 'Escape') closePopup(); 
+    });
+    
+    if (floatingBtn) {
         floatingBtn.addEventListener('click', openPopup);
+    }
 
+    // Manejar submit del formulario
+    if (emailForm) {
         emailForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const email = emailInput.value.trim();
+            
             if (!email) return;
 
-            // Guardar localmente
-            const emails = JSON.parse(localStorage.getItem('collectedEmails') || '[]');
-            emails.push({ email: email, date: new Date().toISOString() });
-            localStorage.setItem('collectedEmails', JSON.stringify(emails));
-            localStorage.setItem('guideDownloaded', 'true');
+            // 1. Guardar localmente (siempre funciona)
+            try {
+                const emails = JSON.parse(localStorage.getItem('collectedEmails') || '[]');
+                emails.push({ email: email, date: new Date().toISOString() });
+                localStorage.setItem('collectedEmails', JSON.stringify(emails));
+                localStorage.setItem('guideDownloaded', 'true');
+            } catch (storageError) {
+                console.log('Error guardando en localStorage:', storageError);
+            }
 
-            // Mostrar éxito
-            popupForm.classList.add('hidden');
-            popupSuccess.classList.add('active');
+            // 2. Mostrar éxito INMEDIATAMENTE (sin esperar a Formspree)
+            if (popupForm && popupSuccess) {
+                popupForm.classList.add('hidden');
+                popupSuccess.classList.add('active');
+            }
 
-            // Trackear en Google Analytics
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'guide_download', { 'event_category': 'engagement', 'event_label': 'Forex Guide Download' });
+            // 3. Enviar a Formspree (en segundo plano, sin bloquear)
+            // REEMPLAZA 'TU_FORMSPREE_ID' con tu ID real de Formspree
+            const formspreeId = 'cf44c4db-0aa5-4be4-b958-0365b858b309'; // Tu ID actual
+            
+            fetch(`https://formspree.io/f/xljekqve`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    email: email,
+                    _subject: 'Nuevo lead - Guía Forex descargada'
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Email enviado a Formspree correctamente');
+                } else {
+                    console.log('Formspree respondió con error:', response.status);
+                }
+            })
+            .catch(error => {
+                // Error silencioso - no interrumpe la descarga
+                console.log('Error enviando a Formspree (pero la descarga funciona):', error);
+            });
+
             }
         });
-        
-    fetch('https://formspree.io/f/xljekqve', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email })
-    });
-    </script>
-    </body>
-    </html>
+    }
+</script>
