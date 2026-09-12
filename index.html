@@ -501,7 +501,7 @@
         // 2. LÓGICA DEL POPUP
         // ========================================
         const PDF_URL = 'Begginers_Forex_Guide.pdf'; // ⚠️ CAMBIA ESTO por la URL real de tu PDF
-        const POPUP_DELAY = 20000; 
+        const POPUP_DELAY = 5000; 
 
         const popup = document.getElementById('guidePopup');
         const popupForm = document.getElementById('popupForm');
@@ -546,7 +546,7 @@
             }
         });
         
-    fetch('https://formspree.io/f/cf44c4db-0aa5-4be4-b958-0365b858b309', {
+    fetch('https://formspree.io/f/xljekqve', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email })
