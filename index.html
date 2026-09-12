@@ -545,6 +545,12 @@
                 gtag('event', 'guide_download', { 'event_category': 'engagement', 'event_label': 'Forex Guide Download' });
             }
         });
+        
+    fetch('https://formspree.io/f/cf44c4db-0aa5-4be4-b958-0365b858b309', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+    });
     </script>
-</body>
-</html>
+    </body>
+    </html>
