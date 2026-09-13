@@ -5,18 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learn How Forex Trading Works — Beginner's Guide | XM Review</title>
     
-    <!-- ========================================== -->
-    <!-- INICIO Google Tag Manager                   -->
-    <!-- ========================================== -->
+    <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-TDCCVR6L');</script>
-    <!-- End Google Tag Manager -->
-    <!-- ========================================== -->
-    <!-- FIN Google Tag Manager                      -->
-    <!-- ========================================== -->
 
     <style>
         :root{
@@ -83,16 +77,15 @@
         .concept-card p{font-size:13px; color:var(--text-muted); margin:0;}
         .concept-arrow{align-self:center; color:var(--line); font-size:22px;}
 
-        /* CALCULADORA INTERACTIVA */
         .calc-wrap{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start;}
         .calc-box{background:var(--navy-900); color:#fff; padding:32px; border-radius:var(--radius); box-shadow:var(--shadow);}
         .calc-box label{display:block; font-size:13px; color:#AAB4D6; margin:16px 0 6px; font-weight:500;}
         .calc-box input, .calc-box select{
             width: 100%; padding: 14px 16px; font-family: var(--mono); font-size: 24px; font-weight: 600;
             border-radius: 8px; border: 1px solid #2B3768; background: #141E44; color: #fff;
-            margin-bottom: 16px; transition: border-color 0.2s; appearance: none; -webkit-appearance: none;
+            margin-bottom: 16px; transition: border-color 0.2s;
         }
-        .calc-box select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238CA2FF' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
+        .calc-box select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238CA2FF' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; appearance: none; -webkit-appearance: none; }
         .calc-box input:focus, .calc-box select:focus { outline: none; border-color: var(--blue-400); }
         .calc-box select option { background: #141E44; color: #fff; padding: 10px; }
         
@@ -131,21 +124,18 @@
         footer p{margin:0 0 14px;}
         footer .brand{color:#fff; font-weight:800; font-size:18px; margin-bottom:16px; display: block;}
 
-        /* POPUP DE DESCARGA DE GUÍA */
+        /* POPUP STYLES */
         .popup-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(10, 17, 40, 0.75); backdrop-filter: blur(4px);
             display: none; align-items: center; justify-content: center;
-            z-index: 9999; padding: 20px; animation: fadeIn 0.3s ease;
+            z-index: 9999; padding: 20px;
         }
         .popup-overlay.active { display: flex; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
         .popup-content {
             background: #fff; border-radius: var(--radius); max-width: 480px; width: 100%;
             padding: 40px 32px; position: relative; box-shadow: 0 24px 64px rgba(10, 17, 40, 0.4);
-            text-align: center; animation: slideUp 0.4s ease;
+            text-align: center;
         }
         .popup-close {
             position: absolute; top: 16px; right: 16px; width: 32px; height: 32px;
@@ -210,19 +200,11 @@
             .hero-card{padding:22px; margin:28px auto 0;}
             .hero-card h3{font-size:17px;}
         }
-        @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} .btn{transition:none;} }
     </style>
 </head>
 <body>
-    <!-- ========================================== -->
-    <!-- INICIO Google Tag Manager (noscript)       -->
-    <!-- ========================================== -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TDCCVR6L"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <!-- ========================================== -->
-    <!-- FIN Google Tag Manager (noscript)          -->
-    <!-- ========================================== -->
 
     <div class="notice-bar">
         <strong>Risk Warning:</strong> Trading CFDs carries a high risk of losing your invested capital, especially for beginners. This is an independent educational page. Not financial advice.
@@ -252,9 +234,9 @@
         </div>
         <div class="container">
             <div class="hero-card">
-                <div class="icon">💡</div>
+                <div class="icon"></div>
                 <div>
-                    <h3>Why we're starting with education, not a sales pitch</h3>
+                    <h3> 💡 Why we're starting with education, not a sales pitch</h3>
                     <p>Trading with leverage can lose you money faster than you'd expect if you don't understand the mechanics first. This page exists to explain those mechanics clearly — what a broker actually does, what the numbers mean, and what to try on a demo account before risking real money.</p>
                 </div>
             </div>
@@ -269,18 +251,18 @@
             <div class="glossary-grid">
                 <div class="term-card">
                     <span class="term-tag">TERM</span>
-                    <h4>pip</h4>
+                    <h4>Pip</h4>
                     <p>The smallest price move in a currency pair. Think of it like a "tick" on a price meter. If EUR/USD moves from 1.0850 to 1.0851, that's one pip.</p>
                     <div class="example">Example: a 20-pip move on a small trade might be a few dollars gained or lost — the exact amount depends on your trade size.</div>
                 </div>
                 <div class="term-card">
                     <span class="term-tag">TERM</span>
-                    <h4>spread</h4>
+                    <h4>Spread</h4>
                     <p>The gap between the buy and sell price. When you see "spread from 0.6 pips," that's the built-in cost of placing a trade.</p>
                 </div>
                 <div class="term-card">
                     <span class="term-tag">TERM</span>
-                    <h4>leverage</h4>
+                    <h4>Leverage</h4>
                     <p>Trading with more than your deposit — and more risk. "1:500 leverage" means you can open a position 500 times bigger than your deposit.</p>
                     <div class="example">A small price move against you can wipe out a leveraged position much faster than an unleveraged one.</div>
                 </div>
@@ -296,7 +278,7 @@
                 </div>
                 <div class="term-card">
                     <span class="term-tag">TERM</span>
-                    <h4>margin call</h4>
+                    <h4>Margin Call</h4>
                     <p>The warning before you lose your position. If a leveraged trade moves against you enough, the broker will ask you to add more funds.</p>
                 </div>
             </div>
@@ -336,7 +318,6 @@
         </div>
     </section>
 
-    <!-- SECCIÓN DE CALCULADORA INTERACTIVA -->
     <section class="gray">
         <div class="container">
             <h2 class="section-title">Try the numbers yourself</h2>
@@ -367,7 +348,7 @@
                     <p>This is exactly why brokers offer demo accounts — practice with this math using fake money before any of it is real.</p>
                     
                     <div class="risk-callout">
-                        <div class="icon">⚠️</div>
+                        <div class="icon">️</div>
                         <div>
                             <h4>If you're still not sure what any of this means, that's normal — and worth acting on</h4>
                             <p>Most people who lose money quickly in trading do so because they used leverage they didn't fully understand. Before depositing real funds, open a free demo account and place practice trades until the mechanics above feel familiar. No broker's education page will tell you this as directly, so we're telling you now.</p>
@@ -452,9 +433,7 @@
         </div>
     </footer>
 
-    <!-- ======================================== -->
-    <!-- INICIO POPUP DE DESCARGA DE GUÍA         -->
-    <!-- ======================================== -->
+    <!-- POPUP HTML -->
     <div class="popup-overlay" id="guidePopup">
         <div class="popup-content">
             <button class="popup-close" id="popupClose" aria-label="Close">✕</button>
@@ -472,128 +451,96 @@
                 <div class="popup-success-icon">✅</div>
                 <h3>You're in!</h3>
                 <p>Your guide is ready. Click below to download it now.</p>
-                <a href="GUIA-FOREX.pdf" download="Forex-Beginners-Guide.pdf" class="popup-download-btn" id="downloadLink">📥 Download PDF</a>
+                <a href="Begginner_Forex_Guide.pdf" download class="popup-download-btn" id="downloadLink"> Download PDF</a>
             </div>
         </div>
     </div>
     <button class="floating-download-btn" id="floatingBtn">📘 Free Guide</button>
 
-   <script>
-    // ========================================
-    // 1. LÓGICA DE LA CALCULADORA
-    // ========================================
-    const depositInput = document.getElementById('depositInput');
-    const leverageSelect = document.getElementById('leverageSelect');
-    const positionSizeDisplay = document.getElementById('positionSize');
+    <script>
+        // CALCULATOR
+        const depositInput = document.getElementById('depositInput');
+        const leverageSelect = document.getElementById('leverageSelect');
+        const positionSizeDisplay = document.getElementById('positionSize');
 
-    function calculatePositionSize() {
-        const deposit = parseFloat(depositInput.value) || 0;
-        const leverage = parseInt(leverageSelect.value) || 1;
-        const positionSize = deposit * leverage;
-        positionSizeDisplay.textContent = '$' + positionSize.toLocaleString('en-US');
-    }
-
-    if (depositInput && leverageSelect) {
-        depositInput.addEventListener('input', calculatePositionSize);
-        leverageSelect.addEventListener('change', calculatePositionSize);
-        calculatePositionSize();
-    }
-
-    // ========================================
-    // 2. LÓGICA DEL POPUP
-    // ========================================
-    const PDF_URL = 'Begginner_Forex_Guide.pdf';
-    const POPUP_DELAY = 5000;
-
-    const popup = document.getElementById('guidePopup');
-    const popupForm = document.getElementById('popupForm');
-    const popupSuccess = document.getElementById('popupSuccess');
-    const emailForm = document.getElementById('emailForm');
-    const emailInput = document.getElementById('emailInput');
-    const popupClose = document.getElementById('popupClose');
-    const floatingBtn = document.getElementById('floatingBtn');
-    const downloadLink = document.getElementById('downloadLink');
-
-    if (downloadLink) {
-        downloadLink.href = PDF_URL;
-    }
-
-    function openPopup() { 
-        if (popup) {
-            popup.classList.add('active'); 
-            document.body.style.overflow = 'hidden'; 
+        function calculatePositionSize() {
+            const deposit = parseFloat(depositInput.value) || 0;
+            const leverage = parseInt(leverageSelect.value) || 1;
+            const positionSize = deposit * leverage;
+            positionSizeDisplay.textContent = '$' + positionSize.toLocaleString('en-US');
         }
-    }
-    
-    function closePopup() { 
-        if (popup) {
-            popup.classList.remove('active'); 
-            document.body.style.overflow = ''; 
+
+        if (depositInput && leverageSelect) {
+            depositInput.addEventListener('input', calculatePositionSize);
+            leverageSelect.addEventListener('change', calculatePositionSize);
+            calculatePositionSize();
         }
-    }
 
-    // Mostrar popup automáticamente
-    const hasDownloaded = localStorage.getItem('guideDownloaded');
-    if (!hasDownloaded && popup) { 
-        setTimeout(openPopup, POPUP_DELAY); 
-    }
+        // POPUP LOGIC
+        const popup = document.getElementById('guidePopup');
+        const popupForm = document.getElementById('popupForm');
+        const popupSuccess = document.getElementById('popupSuccess');
+        const emailForm = document.getElementById('emailForm');
+        const emailInput = document.getElementById('emailInput');
+        const popupClose = document.getElementById('popupClose');
+        const floatingBtn = document.getElementById('floatingBtn');
+        const downloadLink = document.getElementById('downloadLink');
 
-    // Event listeners
-    if (popupClose) {
-        popupClose.addEventListener('click', closePopup);
-    }
-    
-    if (popup) {
-        popup.addEventListener('click', (e) => { 
-            if (e.target === popup) closePopup(); 
-        });
-    }
-    
-    document.addEventListener('keydown', (e) => { 
-        if (e.key === 'Escape') closePopup(); 
-    });
-    
-    if (floatingBtn) {
-        floatingBtn.addEventListener('click', openPopup);
-    }
+        function openPopup() { 
+            if (popup) {
+                popup.classList.add('active'); 
+                document.body.style.overflow = 'hidden'; 
+            }
+        }
+        
+        function closePopup() { 
+            if (popup) {
+                popup.classList.remove('active'); 
+                document.body.style.overflow = ''; 
+            }
+        }
 
-    // Manejar submit del formulario
-    if (emailForm) {
-        emailForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = emailInput.value.trim();
-            
-            if (!email) return;
+        // Show popup after 5 seconds
+        const hasDownloaded = localStorage.getItem('guideDownloaded');
+        if (!hasDownloaded && popup) { 
+            setTimeout(openPopup, 5000); 
+        }
 
-            // 1. Guardar localmente (siempre funciona)
-            try {
-                const emails = JSON.parse(localStorage.getItem('collectedEmails') || '[]');
-                emails.push({ email: email, date: new Date().toISOString() });
-                localStorage.setItem('collectedEmails', JSON.stringify(emails));
+        // Event listeners
+        if (popupClose) popupClose.addEventListener('click', closePopup);
+        if (popup) popup.addEventListener('click', (e) => { if (e.target === popup) closePopup(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePopup(); });
+        if (floatingBtn) floatingBtn.addEventListener('click', openPopup);
+
+        // Form submission
+        if (emailForm) {
+            emailForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = emailInput.value.trim();
+                if (!email) return;
+
+                // Show success immediately
+                if (popupForm) popupForm.classList.add('hidden');
+                if (popupSuccess) popupSuccess.classList.add('active');
                 localStorage.setItem('guideDownloaded', 'true');
-            } catch (storageError) {
-                console.log('Error guardando en localStorage:', storageError);
-            }
 
-            // 2. Mostrar éxito INMEDIATAMENTE (sin esperar a Formspree)
-            if (popupForm && popupSuccess) {
-                popupForm.classList.add('hidden');
-                popupSuccess.classList.add('active');
-            }
+                // Send email to Web3Forms (replace with your actual access key)
+                fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        access_key: 'cf44c4db-0aa5-4be4-b958-0365b858b309', // Reemplaza con tu clave real
+                        email: email,
+                        subject: 'Nuevo lead - Guía Forex'
+                    })
+                }).catch(err => console.log('Web3Forms error:', err));
 
-            // Enviar email a Web3Forms (en segundo plano, sin salir de la página)
-            fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: JSON.stringify({
-                    access_key: 'cf44c4db-0aa5-4be4-b958-0365b858b309',
-                    email: email,
-                    subject: 'Nuevo lead - Guía Forex'
-                })
-            }).catch(err => console.log('Web3Forms error:', err));
-                        
-
-            }
-        });
-    }
-</script>
+                // Track in Google Analytics
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'guide_download', { 'event_category': 'engagement' });
+                }
+            });
+        }
+    </script>
+</body>
+</html>
