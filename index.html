@@ -581,32 +581,17 @@
                 popupSuccess.classList.add('active');
             }
 
-            // 3. Enviar a Formspree (en segundo plano, sin bloquear)
-            // REEMPLAZA 'TU_FORMSPREE_ID' con tu ID real de Formspree
-            const formspreeId = 'cf44c4db-0aa5-4be4-b958-0365b858b309'; // Tu ID actual
-            
-            fetch(`https://formspree.io/f/xljekqve`, {
+            // Enviar email a Web3Forms (en segundo plano, sin salir de la página)
+            fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({ 
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({
+                    access_key: 'cf44c4db-0aa5-4be4-b958-0365b858b309',
                     email: email,
-                    _subject: 'Nuevo lead - Guía Forex descargada'
+                    subject: 'Nuevo lead - Guía Forex'
                 })
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Email enviado a Formspree correctamente');
-                } else {
-                    console.log('Formspree respondió con error:', response.status);
-                }
-            })
-            .catch(error => {
-                // Error silencioso - no interrumpe la descarga
-                console.log('Error enviando a Formspree (pero la descarga funciona):', error);
-            });
+            }).catch(err => console.log('Web3Forms error:', err));
+                        
 
             }
         });
