@@ -576,6 +576,73 @@
         </div>
     </footer>
 
+    <!-- ...contenido anterior... -->
+
+<!-- PEGA EL NUEVO SCRIPT AQUÍ  -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("🚀 Script Split Redirection Iniciado");
+
+    // 1. RUTA ABSOLUTA AL BONUS
+    const bonusPage = '/bonus/index.html'; 
+    
+    // Capturar utm_prid
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentPrid = urlParams.get('utm_prid');
+    let finalBonusUrl = bonusPage;
+    if (currentPrid) {
+        finalBonusUrl += '?utm_prid=' + encodeURIComponent(currentPrid);
+    }
+
+    // 2. SELECTOR CORREGIDO PARA TUS ENLACES ACTUALES
+    const xmLinks = document.querySelectorAll('a[href*="pipaffiliates.com"]');
+    
+    console.log("🔗 Enlaces XM detectados:", xmLinks.length);
+
+    xmLinks.forEach((link, index) => {
+        console.log(`✅ Link #${index + 1} vinculado:`, link.href);
+        
+        link.addEventListener('click', function(e) {
+            e.preventDefault(); 
+            
+            const targetUrl = this.href;
+            console.log("🖱️ Click interceptado hacia:", targetUrl);
+            
+            // Abrir XM en nueva pestaña
+            const newWindow = window.open(targetUrl, '_blank');
+            
+            // Fallback anti-bloqueo
+            if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+                let fallback = document.getElementById('xm-fallback-link');
+                if (!fallback) {
+                    fallback = document.createElement('a');
+                    fallback.id = 'xm-fallback-link';
+                    fallback.href = targetUrl;
+                    fallback.target = '_blank';
+                    fallback.style.cssText = 'display:block; margin-top:20px; padding:15px; background:#fef2f2; border:2px solid #d32f2f; color:#d32f2f; font-weight:bold; text-align:center; border-radius:8px; text-decoration:none;';
+                    fallback.textContent = '⚠️ XM no se abrió automáticamente. Haz clic aquí para ir manualmente.';
+                    this.parentNode.insertBefore(fallback, this.nextSibling);
+                }
+                fallback.style.display = 'block';
+                console.warn("⚠️ Popup bloqueado. Mostrando enlace de respaldo.");
+            }
+            
+            // Redirigir PESTAÑA ACTUAL al bonus
+            setTimeout(() => {
+                console.log("➡️ Redirigiendo a bonus:", finalBonusUrl);
+                window.location.href = finalBonusUrl;
+            }, 150);
+        });
+    });
+});
+</script>
+<!-- FIN DEL NUEVO SCRIPT  -->
+
+<!-- Este es el script que YA TENÍAS (popup del PDF) -->
+<script>
+document.getElementById('guide-popup').addEventListener('click', function() {
+// ... resto de tu código original ...
+
     <!-- POPUP -->
     <div class="popup-overlay" id="guidePopup">
         <div class="popup-content">
@@ -680,62 +747,6 @@
                 if (typeof gtag !== 'undefined') {
                     gtag('event', 'guide_download', { 'event_category': 'engagement' });
                 }
-                
-            document.addEventListener('DOMContentLoaded', function() {
-        <script>
-document.addEventListener('DOMContentLoaded', function() {
-    console.log(" Script Split Redirection Iniciado");
-
-    // 1. RUTA ABSOLUTA AL BONUS (Crítico para GitHub Pages en subcarpeta)
-    const bonusPage = '/bonus/index.html'; 
-    
-    // Capturar utm_prid para pasarlo al bonus
-    const urlParams = new URLSearchParams(window.location.search);
-    const currentPrid = urlParams.get('utm_prid');
-    let finalBonusUrl = bonusPage;
-    if (currentPrid) {
-        finalBonusUrl += '?utm_prid=' + encodeURIComponent(currentPrid);
-    }
-
-    // 2. SELECTOR CORREGIDO: Busca TODOS los enlaces a pipaffiliates
-    // Usamos attribute selector exacto para evitar falsos positivos
-    const xmLinks = document.querySelectorAll('a[href*="pipaffiliates.com"]');
-    
-    console.log("🔗 Enlaces XM detectados:", xmLinks.length);
-
-    xmLinks.forEach((link, index) => {
-        console.log(`✅ Link #${index + 1} vinculado:`, link.href);
-        
-        link.addEventListener('click', function(e) {
-            e.preventDefault(); // Detener navegación normal
-            
-            const targetUrl = this.href;
-            console.log("🖱️ Click interceptado hacia:", targetUrl);
-            
-            // 3. Abrir XM en nueva pestaña
-            const newWindow = window.open(targetUrl, '_blank');
-            
-            // Fallback anti-bloqueo
-            if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-                let fallback = document.getElementById('xm-fallback-link');
-                if (!fallback) {
-                    fallback = document.createElement('a');
-                    fallback.id = 'xm-fallback-link';
-                    fallback.href = targetUrl;
-                    fallback.target = '_blank';
-                    fallback.style.cssText = 'display:block; margin-top:20px; padding:15px; background:#fef2f2; border:2px solid #d32f2f; color:#d32f2f; font-weight:bold; text-align:center; border-radius:8px; text-decoration:none;';
-                    fallback.textContent = '️ XM no se abrió automáticamente. Haz clic aquí para ir manualmente.';
-                    this.parentNode.insertBefore(fallback, this.nextSibling);
-                }
-                fallback.style.display = 'block';
-                console.warn("⚠️ Popup bloqueado. Mostrando enlace de respaldo.");
-            }
-            
-            // 4. Redirigir PESTAÑA ACTUAL al bonus tras breve delay
-            setTimeout(() => {
-                console.log("➡️ Redirigiendo a bonus:", finalBonusUrl);
-                window.location.href = finalBonusUrl;
-            }, 150);
         });
     });
 });
