@@ -682,53 +682,64 @@
                 }
                 
             document.addEventListener('DOMContentLoaded', function() {
-         // 1. Capturar el utm_prid actual para pasarlo a la página de bonus
-                const urlParams = new URLSearchParams(window.location.search);
-                const currentPrid = urlParams.get('utm_prid');
-                
-                // Construir la URL de bonus conservando el ID de Propeller Ads
-                let bonusPage = '/bonus/index.html';
-                if (currentPrid) {
-                    bonusPage += '?utm_prid=' + encodeURIComponent(currentPrid);
-                }
+        <script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log(" Script Split Redirection Iniciado");
 
-    // 2. Seleccionar TODOS los enlaces que vayan a XM o a tu red de afiliados
-    // Ajusta los selectores si usas otros dominios específicos
-    const xmLinks = document.querySelectorAll('#xm-section .btn.btn-primary')
+    // 1. RUTA ABSOLUTA AL BONUS (Crítico para GitHub Pages en subcarpeta)
+    const bonusPage = '/bonus/index.html'; 
     
-    xmLinks.forEach(link => {
+    // Capturar utm_prid para pasarlo al bonus
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentPrid = urlParams.get('utm_prid');
+    let finalBonusUrl = bonusPage;
+    if (currentPrid) {
+        finalBonusUrl += '?utm_prid=' + encodeURIComponent(currentPrid);
+    }
+
+    // 2. SELECTOR CORREGIDO: Busca TODOS los enlaces a pipaffiliates
+    // Usamos attribute selector exacto para evitar falsos positivos
+    const xmLinks = document.querySelectorAll('a[href*="pipaffiliates.com"]');
+    
+    console.log("🔗 Enlaces XM detectados:", xmLinks.length);
+
+    xmLinks.forEach((link, index) => {
+        console.log(`✅ Link #${index + 1} vinculado:`, link.href);
+        
         link.addEventListener('click', function(e) {
             e.preventDefault(); // Detener navegación normal
             
             const targetUrl = this.href;
+            console.log("🖱️ Click interceptado hacia:", targetUrl);
             
-            // 3. Abrir XM en nueva pestaña (dentro del evento click para evitar bloqueos)
+            // 3. Abrir XM en nueva pestaña
             const newWindow = window.open(targetUrl, '_blank');
             
-            // Fallback por si el navegador bloquea el popup
-                if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-                    // Crear enlace de respaldo visible si falla
-                    let fallback = document.getElementById('xm-fallback-link');
-                    if (!fallback) {
-                        fallback = document.createElement('a');
-                        fallback.id = 'xm-fallback-link';
-                        fallback.href = targetUrl;
-                        fallback.target = '_blank';
-                        fallback.style.cssText = 'display:block; margin-top:15px; color:#d32f2f; font-weight:bold; text-align:center; padding:10px; border:1px solid #d32f2f; border-radius:8px; text-decoration:none;';
-                        fallback.textContent = '️ XM no se abrió automáticamente. Haz clic aquí para ir manualmente.';
-                        this.parentNode.appendChild(fallback);
-                    }
-                    fallback.style.display = 'block';
+            // Fallback anti-bloqueo
+            if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+                let fallback = document.getElementById('xm-fallback-link');
+                if (!fallback) {
+                    fallback = document.createElement('a');
+                    fallback.id = 'xm-fallback-link';
+                    fallback.href = targetUrl;
+                    fallback.target = '_blank';
+                    fallback.style.cssText = 'display:block; margin-top:20px; padding:15px; background:#fef2f2; border:2px solid #d32f2f; color:#d32f2f; font-weight:bold; text-align:center; border-radius:8px; text-decoration:none;';
+                    fallback.textContent = '️ XM no se abrió automáticamente. Haz clic aquí para ir manualmente.';
+                    this.parentNode.insertBefore(fallback, this.nextSibling);
                 }
-                
-                // 4. Redirigir la PESTAÑA ACTUAL a la página de bonus
-                // Pequeño delay de 100ms para asegurar que el navegador procesó el window.open
-                setTimeout(() => {
-                    window.location.href = bonusPage;
-                }, 100);
+                fallback.style.display = 'block';
+                console.warn("⚠️ Popup bloqueado. Mostrando enlace de respaldo.");
+            }
+            
+            // 4. Redirigir PESTAÑA ACTUAL al bonus tras breve delay
+            setTimeout(() => {
+                console.log("➡️ Redirigiendo a bonus:", finalBonusUrl);
+                window.location.href = finalBonusUrl;
+            }, 150);
         });
     });
-            });
+});
+</script>
         }
     </script>
 </body>
