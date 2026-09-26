@@ -680,6 +680,56 @@
                 if (typeof gtag !== 'undefined') {
                     gtag('event', 'guide_download', { 'event_category': 'engagement' });
                 }
+                
+            document.addEventListener('DOMContentLoaded', function() {
+                // 1. Capturar el utm_prid actual para pasarlo a la página de bonus
+                const urlParams = new URLSearchParams(window.location.search);
+                const currentPrid = urlParams.get('utm_prid');
+                
+                // Construir la URL de bonus conservando el ID de Propeller Ads
+                let bonusPage = 'bonus/index.html';
+                if (currentPrid) {
+                    bonusPage += '?utm_prid=' + encodeURIComponent(currentPrid);
+                }
+
+    // 2. Seleccionar TODOS los enlaces que vayan a XM o a tu red de afiliados
+    // Ajusta los selectores si usas otros dominios específicos
+    const xmLinks = document.querySelectorAll('a[href*="xm.com"], a[href*="xmglobal"], a[href*="pipaffiliates"]');
+    
+    xmLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault(); // Detener navegación normal
+            
+            const targetUrl = this.href;
+            
+            // 3. Abrir XM en nueva pestaña (dentro del evento click para evitar bloqueos)
+            const newWindow = window.open(targetUrl, '_blank');
+            
+            // Fallback por si el navegador bloquea el popup
+                if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+                    // Crear enlace de respaldo visible si falla
+                    let fallback = document.getElementById('xm-fallback-link');
+                    if (!fallback) {
+                        fallback = document.createElement('a');
+                        fallback.id = 'xm-fallback-link';
+                        fallback.href = targetUrl;
+                        fallback.target = '_blank';
+                        fallback.style.cssText = 'display:block; margin-top:15px; color:#d32f2f; font-weight:bold; text-align:center; padding:10px; border:1px solid #d32f2f; border-radius:8px; text-decoration:none;';
+                        fallback.textContent = '️ XM no se abrió automáticamente. Haz clic aquí para ir manualmente.';
+                        this.parentNode.appendChild(fallback);
+                    }
+                    fallback.style.display = 'block';
+                }
+                
+                // 4. Redirigir la PESTAÑA ACTUAL a la página de bonus
+                // Pequeño delay de 100ms para asegurar que el navegador procesó el window.open
+                setTimeout(() => {
+                    window.location.href = bonusPage;
+                }, 100);
+        });
+    });
+});
+</script>
             });
         }
     </script>
