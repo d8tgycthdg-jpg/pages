@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎁 Get Your Free Trading Guide - AffEducation</title>
+    <style>
+        body { 
+            font-family: system-ui, -apple-system, sans-serif; 
+            max-width: 600px; 
+            margin: 60px auto; 
+            padding: 20px; 
+            text-align: center; 
+            background: #f9fafb; 
+            color: #1f2937;
+        }
+        .bonus-box { 
+            background: white; 
+            border: 2px solid #d32f2f; 
+            border-radius: 16px; 
+            padding: 40px 30px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08); 
+        }
+        h1 { font-size: 1.9rem; margin-bottom: 15px; line-height: 1.3; }
+        p { color: #4b5563; line-height: 1.7; font-size: 1.1rem; margin-bottom: 25px; }
+        
+        /* Beneficio único */
+        .benefit { 
+            text-align: left; 
+            background: #fef2f2; 
+            padding: 25px; 
+            border-radius: 12px; 
+            margin-bottom: 30px; 
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .icon { font-size: 2rem; flex-shrink: 0; }
+        .benefit-text strong { display: block; font-size: 1.1rem; margin-bottom: 5px; color: #1f2937; }
+        .benefit-text span { color: #4b5563; font-size: 1rem; }
+
+        /* Formulario */
+        .form-group { 
+            display: flex; 
+            gap: 10px; 
+            justify-content: center; 
+            flex-wrap: wrap; 
+            margin-bottom: 15px; 
+        }
+        input[type="email"] { 
+            flex: 1; 
+            min-width: 240px; 
+            padding: 14px 18px; 
+            border: 2px solid #e5e7eb; 
+            border-radius: 10px; 
+            font-size: 1rem; 
+            transition: border-color 0.3s;
+        }
+        input[type="email"]:focus { outline: none; border-color: #d32f2f; }
+        
+        button { 
+            background: #d32f2f; 
+            color: white; 
+            border: none; 
+            padding: 14px 28px; 
+            border-radius: 10px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            font-size: 1rem; 
+            transition: all 0.3s; 
+            white-space: nowrap;
+        }
+        button:hover:not(:disabled) { background: #b71c1c; transform: translateY(-1px); }
+        button:disabled { background: #9ca3af; cursor: not-allowed; transform: none; }
+        
+        /* Estados */
+        .hidden { display: none !important; }
+        .success-msg { 
+            color: #059669; 
+            font-weight: 700; 
+            font-size: 1.3rem; 
+            margin-top: 10px; 
+        }
+        .note { font-size: 0.85rem; color: #6b7280; margin-top: 20px; }
+        .download-link { 
+            color: #d32f2f; 
+            font-weight: 700; 
+            text-decoration: underline; 
+            text-underline-offset: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bonus-box">
+        <h1>🚀 Your XM Account is on its way!</h1>
+        <p>A new tab has opened with the XM registration. While you set up your account, <strong>grab your free Beginner's Trading Guide</strong> to start correctly:</p>
+        
+        <div class="benefit">
+            <span class="icon">📘</span>
+            <div class="benefit-text">
+                <strong>Beginner's Trading Guide (PDF)</strong>
+                <span>Step-by-step instructions for your first trade, risk management basics, and how to navigate the platform safely.</span>
+            </div>
+        </div>
+
+        <!-- FORMULARIO -->
+        <form id="bonus-form">
+            <div class="form-group">
+                <input type="email" id="email" placeholder="Enter your email to unlock" required aria-label="Email address">
+                <button type="submit" id="submit-btn">Download Free Guide →</button>
+            </div>
+            <p class="note">We respect your privacy. No spam, just this free guide.</p>
+        </form>
+
+        <!-- MENSAJE DE ÉXITO -->
+        <div id="success-container" class="hidden">
+            <p class="success-msg">✅ Download started!</p>
+            <p>If it doesn't start automatically in a few seconds:</p>
+            <a href="/guia-trading-xm.pdf" target="_blank" class="download-link">📥 Click here to download manually</a>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ REEMPLAZA CON TU WEB APP URL DE GOOGLE APPS SCRIPT
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxj_brJugfT0-ZaQITmSa_koq3KkvQamahV1buZXwXTRRfi6luWmTr4KQKVu5YKAbtD/exec'; 
+        
+        // Capturar utm_prid para atribución en Google Sheets
+        const urlParams = new URLSearchParams(window.location.search);
+        const utmPrid = urlParams.get('utm_prid') || '';
+
+        document.getElementById('bonus-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submit-btn');
+            const emailInput = document.getElementById('email');
+            const email = emailInput.value.trim();
+            
+            if (!email) return;
+            
+            // Estado de carga
+            btn.disabled = true;
+            btn.textContent = 'Unlocking...';
+            
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email, utmid: utmPrid })
+                });
+                
+                // Transición exitosa
+                document.getElementById('bonus-form').classList.add('hidden');
+                document.getElementById('success-container').classList.remove('hidden');
+                
+                // Forzar descarga del PDF
+                window.open('/guia-trading-xm.pdf', '_blank');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                btn.disabled = false;
+                btn.textContent = 'Try Again';
+                alert('Something went wrong. Please use the manual download link below.');
+            }
+        });
+    </script>
+</body>
+</html>
