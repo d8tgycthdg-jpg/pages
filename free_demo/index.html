@@ -332,7 +332,7 @@
             
             <!-- CTA PRINCIPAL AHORA VA INMEDIATAMENTE DESPUÉS DEL H1 -->
             <div class="hero-cta-primary">
-                <a href="https://clicks.pipaffiliates.com/c?c=1310237&l=en&p=1" class="btn btn-primary btn-large">
+                <a href="https://clicks.pipaffiliates.com/c?c=1310237&l=en&p=1" class="btn btn-primary">
                     Open Free Demo Account →
                 </a>
                 <p class="micro-copy">
@@ -694,7 +694,7 @@
 
     // 2. Seleccionar TODOS los enlaces que vayan a XM o a tu red de afiliados
     // Ajusta los selectores si usas otros dominios específicos
-    const xmLinks = document.querySelectorAll('a[href*="xm.com"], a[href*="xmglobal"], a[href*="pipaffiliates"]');
+    const xmLinks = document.querySelectorAll('#xm-section .btn.btn-primary')
     
     xmLinks.forEach(link => {
         link.addEventListener('click', function(e) {
