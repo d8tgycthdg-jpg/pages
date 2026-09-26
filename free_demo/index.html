@@ -640,116 +640,122 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- Este es el script que YA TENÍAS (popup del PDF) -->
 <script>
-document.getElementById('guide-popup').addEventListener('click', function() {
-// ... resto de tu código original ...
+    <!-- POPUP ESTRUCTURA CORRECTA -->
+<div class="popup-overlay" id="guidePopup">
+    <div class="popup-content">
+        <button class="popup-close" id="popupClose" aria-label="Close">✕</button>
+        
+        <!-- FORMULARIO -->
+        <div class="popup-form" id="popupForm">
+            <div class="popup-icon"></div>
+            <h3>Get Your Free Forex Guide</h3>
+            <p>Enter your email to download the complete Beginner's Guide to Forex Trading — in plain English, no jargon.</p>
+            <form id="emailForm">
+                <input type="text" class="popup-input" id="nameInput" placeholder="Your name" required>
+                <input type="email" class="popup-input" id="emailInput" placeholder="your@email.com" required>
+                <button type="submit" class="popup-submit">Download Free Guide</button>
+            </form>
+            <p class="popup-privacy">We respect your privacy. No spam, ever.</p>
+        </div>
 
-    <!-- POPUP -->
-    <div class="popup-overlay" id="guidePopup">
-        <div class="popup-content">
-            <button class="popup-close" id="popupClose" aria-label="Close">✕</button>
-            <div class="popup-form" id="popupForm">
-                <div class="popup-icon">📘</div>
-                <h3>Get Your Free Forex Guide</h3>
-                <p>Enter your email to download the complete Beginner's Guide to Forex Trading — in plain English, no jargon.</p>
-                <form id="emailForm">
-                    <input type="text" class="popup-input" id="nameInput" placeholder="Your name" required>
-                    <input type="email" class="popup-input" id="emailInput" placeholder="your@email.com" required>
-                    <button type="submit" class="popup-submit"> Download Free Guide</button>
-                </form>
-                <p class="popup-privacy"> We respect your privacy. No spam, ever.</p>
-            </div>
-            <div class="popup-success" id="popupSuccess">
-                <div class="popup-success-icon">✅</div>
-                <h3>You're in!</h3>
-                <p>Your guide is ready. Click below to download it now.</p>
-                <a href="Begginers_Forex_Guide.pdf" download class="popup-download-btn" id="downloadLink">📥 Download PDF</a>
-            </div>
+        <!-- MENSAJE DE ÉXITO (ID correcto: popupSuccess) -->
+        <div class="popup-success hidden" id="popupSuccess">
+            <div class="popup-success-icon">✅</div>
+            <h3>You're in!</h3>
+            <p>Your guide is ready. Click below to download it now.</p>
+            <a href="Begginers_Forex_Guide.pdf" download class="popup-download-btn" id="downloadLink">📥 Download PDF</a>
         </div>
     </div>
-    <button class="floating-download-btn" id="floatingBtn">📘 Free Guide</button>
+</div>
 
-    <script>
-        // CALCULATOR
-        const depositInput = document.getElementById('depositInput');
-        const leverageSelect = document.getElementById('leverageSelect');
-        const positionSizeDisplay = document.getElementById('positionSize');
+<button class="floating-download-btn" id="floatingBtn">📘 Free Guide</button>
 
-        function calculatePositionSize() {
-            const deposit = parseFloat(depositInput.value) || 0;
-            const leverage = parseInt(leverageSelect.value) || 1;
-            const positionSize = deposit * leverage;
-            positionSizeDisplay.textContent = '$' + positionSize.toLocaleString('en-US');
+<!-- SCRIPTS UNIFICADOS Y CORREGIDOS -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // === 1. CALCULADORA ===
+    const depositInput = document.getElementById('depositInput');
+    const leverageSelect = document.getElementById('leverageSelect');
+    const positionSizeDisplay = document.getElementById('positionSize');
+
+    function calculatePositionSize() {
+        if (!depositInput || !leverageSelect || !positionSizeDisplay) return;
+        const deposit = parseFloat(depositInput.value) || 0;
+        const leverage = parseInt(leverageSelect.value) || 1;
+        positionSizeDisplay.textContent = '$' + (deposit * leverage).toLocaleString('en-US');
+    }
+
+    if (depositInput && leverageSelect) {
+        depositInput.addEventListener('input', calculatePositionSize);
+        leverageSelect.addEventListener('change', calculatePositionSize);
+        calculatePositionSize();
+    }
+
+    // === 2. LÓGICA DEL POPUP ===
+    const popup = document.getElementById('guidePopup');
+    const popupForm = document.getElementById('popupForm');
+    const popupSuccess = document.getElementById('popupSuccess');
+    const emailForm = document.getElementById('emailForm');
+    const floatingBtn = document.getElementById('floatingBtn');
+    const popupClose = document.getElementById('popupClose');
+
+    function openPopup() { 
+        if (popup) {
+            popup.classList.add('active'); 
+            document.body.style.overflow = 'hidden'; 
         }
-
-        if (depositInput && leverageSelect) {
-            depositInput.addEventListener('input', calculatePositionSize);
-            leverageSelect.addEventListener('change', calculatePositionSize);
-            calculatePositionSize();
+    }
+    
+    function closePopup() { 
+        if (popup) {
+            popup.classList.remove('active'); 
+            document.body.style.overflow = ''; 
         }
+    }
 
-        // POPUP LOGIC
-        const popup = document.getElementById('guidePopup');
-        const popupForm = document.getElementById('popupForm');
-        const popupSuccess = document.getElementById('popupSuccess');
-        const emailForm = document.getElementById('emailForm');
-        const emailInput = document.getElementById('emailInput');
-        const nameInput = document.getElementById('nameInput');
-        const popupClose = document.getElementById('popupClose');
-        const floatingBtn = document.getElementById('floatingBtn');
-        const downloadLink = document.getElementById('downloadLink');
+    // Abrir automáticamente si no ha descargado antes
+    if (!localStorage.getItem('guideDownloaded') && popup) { 
+        setTimeout(openPopup, 5000); 
+    }
 
-        function openPopup() { 
-            if (popup) {
-                popup.classList.add('active'); 
-                document.body.style.overflow = 'hidden'; 
+    if (popupClose) popupClose.addEventListener('click', closePopup);
+    if (popup) popup.addEventListener('click', (e) => { if (e.target === popup) closePopup(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePopup(); });
+    if (floatingBtn) floatingBtn.addEventListener('click', openPopup);
+
+    if (emailForm) {
+        emailForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('emailInput').value.trim();
+            const name = document.getElementById('nameInput').value.trim();
+            if (!email) return;
+
+            // Cambiar vista del popup CORRECTAMENTE
+            if (popupForm) popupForm.classList.add('hidden');
+            if (popupSuccess) popupSuccess.classList.remove('hidden'); // CORREGIDO: remove hidden, no add active
+            localStorage.setItem('guideDownloaded', 'true');
+
+            // Enviar a Web3Forms
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({
+                    access_key: 'cf44c4db-0aa5-4be4-b958-0365b858b309',
+                    name: name,
+                    email: email,
+                    subject: 'Nuevo lead - Guía Forex'
+                })
+            }).catch(err => console.log('Web3Forms error:', err));
+
+            // GTM Event (corregido para usar dataLayer estándar)
+            if (typeof dataLayer !== 'undefined') {
+                dataLayer.push({ event: 'guide_download', event_category: 'engagement' });
             }
-        }
-        
-        function closePopup() { 
-            if (popup) {
-                popup.classList.remove('active'); 
-                document.body.style.overflow = ''; 
-            }
-        }
-
-        const hasDownloaded = localStorage.getItem('guideDownloaded');
-        if (!hasDownloaded && popup) { 
-            setTimeout(openPopup, 5000); 
-        }
-
-        if (popupClose) popupClose.addEventListener('click', closePopup);
-        if (popup) popup.addEventListener('click', (e) => { if (e.target === popup) closePopup(); });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePopup(); });
-        if (floatingBtn) floatingBtn.addEventListener('click', openPopup);
-
-        if (emailForm) {
-            emailForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const email = emailInput.value.trim();
-                const name = nameInput.value.trim();
-                if (!email) return;
-
-                if (popupForm) popupForm.classList.add('hidden');
-                if (popupSuccess) popupSuccess.classList.add('active');
-                localStorage.setItem('guideDownloaded', 'true');
-
-                fetch('https://api.web3forms.com/submit', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify({
-                        access_key: 'cf44c4db-0aa5-4be4-b958-0365b858b309',
-                        name: name,
-                        email: email,
-                        subject: 'Nuevo lead - Guía Forex'
-                    })
-                }).catch(err => console.log('Web3Forms error:', err));
-
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', 'guide_download', { 'event_category': 'engagement' });
-                }
-            document.getElementById('success-message').style.display = 'flex';
-            });
         });
-        </script>
-    </body>
+    }
+});
+</script>
+</body>
 </html>
