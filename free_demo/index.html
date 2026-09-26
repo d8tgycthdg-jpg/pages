@@ -747,11 +747,9 @@ document.getElementById('guide-popup').addEventListener('click', function() {
                 if (typeof gtag !== 'undefined') {
                     gtag('event', 'guide_download', { 'event_category': 'engagement' });
                 }
+            document.getElementById('success-message').style.display = 'flex';
+            });
         });
-    });
-});
-</script>
-        }
-    </script>
-</body>
+        </script>
+    </body>
 </html>
