@@ -517,7 +517,7 @@
         </div>
     </footer>
 
-    <!-- POPUP & FLOATING BTN -->
+    <!-- POPUP & FLOATING BTN (DISEÑO ORIGINAL MANTENIDO) -->
     <div class="popup-overlay" id="guidePopup">
         <div class="popup-content">
             <button class="popup-close" id="popupClose">✕</button>
@@ -528,7 +528,7 @@
                 <form id="emailForm">
                     <input type="text" class="popup-input" id="nameInput" placeholder="Your name" required>
                     <input type="email" class="popup-input" id="emailInput" placeholder="your@email.com" required>
-                    <button type="submit" class="popup-submit">Download Free Guide</button>
+                    <button type="submit" class="popup-submit" id="submitBtn">Download Free Guide</button>
                 </form>
             </div>
             <div id="popupSuccess" class="hidden">
@@ -541,11 +541,14 @@
     </div>
     <button class="floating-download-btn" id="floatingBtn">📘 Free Guide</button>
 
-    <!-- SCRIPTS CORREGIDOS Y UNIFICADOS -->
+    <!-- SCRIPTS UNIFICADOS CON GOOGLE SHEETS -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         
-        // === 1. SPLIT REDIRECTION PARA TODOS LOS ENLACES DE AFILIADO ===
+        // === CONFIGURACIÓN GOOGLE SHEETS ===
+        const GAS_URL = 'TU_URL_DE_APPS_SCRIPT_AQUI'; // <-- PEGA TU URL DE APPS SCRIPT AQUÍ
+        
+        // === 1. SPLIT REDIRECTION ===
         const bonusPage = '/bonus/index.html'; 
         const urlParams = new URLSearchParams(window.location.search);
         const currentPrid = urlParams.get('utm_prid');
@@ -561,12 +564,9 @@
             link.addEventListener('click', function(e) {
                 e.preventDefault(); 
                 const targetUrl = this.href;
-                console.log("🖱️ Click interceptado:", targetUrl);
                 
-                // Abrir XM en nueva pestaña
                 const newWindow = window.open(targetUrl, '_blank');
                 
-                // Fallback anti-bloqueo
                 if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
                     let fallback = document.getElementById('xm-fallback-link');
                     if (!fallback) {
@@ -580,7 +580,6 @@
                     fallback.style.display = 'block';
                 }
                 
-                // Redirigir pestaña ACTUAL al bonus
                 setTimeout(() => {
                     window.location.href = finalBonusUrl;
                 }, 150);
@@ -605,11 +604,12 @@
             calculatePositionSize();
         }
 
-        // === 3. POPUP PDF ===
+        // === 3. POPUP CON GOOGLE SHEETS ===
         const popup = document.getElementById('guidePopup');
         const popupForm = document.getElementById('popupForm');
         const popupSuccess = document.getElementById('popupSuccess');
         const emailForm = document.getElementById('emailForm');
+        const submitBtn = document.getElementById('submitBtn');
         const floatingBtn = document.getElementById('floatingBtn');
         const popupClose = document.getElementById('popupClose');
 
@@ -637,29 +637,45 @@
         if (floatingBtn) floatingBtn.addEventListener('click', openPopup);
 
         if (emailForm) {
-            emailForm.addEventListener('submit', function(e) {
+            emailForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
+                
                 const email = document.getElementById('emailInput').value.trim();
                 const name = document.getElementById('nameInput').value.trim();
                 if (!email) return;
 
-                if (popupForm) popupForm.classList.add('hidden');
-                if (popupSuccess) popupSuccess.classList.remove('hidden');
-                localStorage.setItem('guideDownloaded', 'true');
+                // Estado de carga
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
 
-                fetch('https://api.web3forms.com/submit', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify({
-                        access_key: 'cf44c4db-0aa5-4be4-b958-0365b858b309',
-                        name: name,
-                        email: email,
-                        subject: 'Nuevo lead - Guía Forex'
-                    })
-                }).catch(err => console.log('Web3Forms error:', err));
+                try {
+                    // Enviar a Google Sheets
+                    await fetch(GAS_URL, {
+                        method: 'POST',
+                        mode: 'no-cors', // Obligatorio para GAS desde frontend
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            email: email, 
+                            name: name, 
+                            utmid: currentPrid || '' 
+                        })
+                    });
 
-                if (typeof dataLayer !== 'undefined') {
-                    dataLayer.push({ event: 'guide_download', event_category: 'engagement' });
+                    // Éxito: mostrar pantalla de descarga
+                    popupForm.classList.add('hidden');
+                    popupSuccess.classList.remove('hidden');
+                    localStorage.setItem('guideDownloaded', 'true');
+
+                    // GTM Event Tracking
+                    if (typeof dataLayer !== 'undefined') {
+                        dataLayer.push({ event: 'guide_download', event_category: 'engagement' });
+                    }
+
+                } catch (error) {
+                    console.error('Error sending to Google Sheets:', error);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Try Again';
+                    alert('Something went wrong. Please try again.');
                 }
             });
         }
