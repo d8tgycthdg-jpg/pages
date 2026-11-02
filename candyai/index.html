@@ -17,12 +17,8 @@
             justify-content: center;
             margin: 0;
         }
-        .container { max-width: 500px; width: 100%; }
-        h1 { 
-            color: #ff4d6d; /* Color de marca Candy AI */
-            margin-bottom: 0.5rem; 
-            font-size: 2rem; 
-        }
+        .container { max-width: 500px; width: 100%; position: relative; }
+        h1 { color: #ff4d6d; margin-bottom: 0.5rem; font-size: 2rem; }
         p { margin-bottom: 2rem; line-height: 1.6; color: #aaa; }
         
         .btn { 
@@ -65,12 +61,28 @@
         
         footer { margin-top: 3rem; font-size: 0.7rem; color: #555; }
         footer a { color: #777; text-decoration: none; margin: 0 5px; }
+
+        /* 🛡️ HONEYPOT: Invisible para humanos, visible para bots */
+        .hp-field {
+            position: absolute !important;
+            left: -9999px !important;
+            top: -9999px !important;
+            width: 1px !important;
+            height: 1px !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            tab-index: -1 !important;
+        }
     </style>
 </head>
 <body>
+    <!-- 🛡️ CAMPO HONEYPOT OCULTO -->
+    <input type="text" id="hp_website" class="hp-field" name="website" autocomplete="off" tabindex="-1" aria-hidden="true">
+    
     <div class="container">
         <!-- PANTALLA 1: INTRO -->
         <div id="screen-intro">
+            <img src="TU_RAW_LINK_DE_GITHUB_AQUI" alt="Candy AI Companion">
             <h1>Find Your Perfect Candy AI Match</h1>
             <p>Answer 3 quick questions to discover which AI personality is designed for you.</p>
             <button class="btn" onclick="nextScreen('q1')">Start Matching</button>
@@ -107,7 +119,7 @@
             <button class="btn" onclick="showResult()">Visual & voice quality</button>
         </div>
 
-        <!-- PANTALLA FINAL: REDIRECCIÓN AUTOMÁTICA -->
+        <!-- PANTALLA FINAL: REDIRECCIÓN PROTEGIDA -->
         <div id="screen-result" class="hidden">
             <div class="loader"></div>
             <h2>Finding Your Match...</h2>
@@ -116,8 +128,13 @@
     </div>
 
     <script>
-        // ⚠️ REEMPLAZA ESTO CON TU ENLACE DE AFILIADO REAL DE CANDY AI
-        const AFFILIATE_LINK = "https://go.cm-trk6.com/aff_f?h=ivtAnm&aff_sub5=other&source=___&click_id=____"; 
+        // ⚠️ ENLACE OFUSCADO EN BASE64 (Reemplaza con TU enlace codificado)
+        const ENCODED_LINK = "aHR0cHM6Ly9nby5jbS10cms2LmNvbS9hZmZfZj9oPWl2dEFubSZhZmZfc3ViNT1vdGhlciZzb3VyY2U9X19fJmNsaWNrX2lkPV9fX18="; 
+        
+        function decodeLink() {
+            try { return atob(ENCODED_LINK); } 
+            catch(e) { return "https://candy.ai"; } // Fallback seguro
+        }
 
         function nextScreen(nextId) {
             document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
@@ -125,12 +142,29 @@
         }
 
         function showResult() {
+            // 🛡️ PROTECCIÓN 1: HONEYPOT CHECK
+            const honeypotValue = document.getElementById('hp_website').value.trim();
+            if (honeypotValue !== '') {
+                console.log('🤖 Bot detected via honeypot');
+                return; // NO redirige, se queda en la pantalla de carga
+            }
+
+            // 🛡️ PROTECCIÓN 2: USER-AGENT CHECK
+            const ua = navigator.userAgent.toLowerCase();
+            const botPatterns = /bot|crawler|spider|propeller|googlebot|bingbot|yandex|baidu|semrush|ahrefs|mj12|dotbot/i;
+            if (botPatterns.test(ua)) {
+                console.log('🤖 Bot detected via User-Agent:', ua);
+                return; // NO redirige
+            }
+
+            // ✅ USUARIO REAL: Muestra resultado y redirige
             nextScreen('result');
+            
             setTimeout(() => {
-                window.location.href = AFFILIATE_LINK;
-            }, 1800); // 1.8 segundos para crear anticipación
+                const finalUrl = decodeLink();
+                window.location.href = finalUrl;
+            }, 2500); // Delay extendido a 2.5s para mayor seguridad
         }
     </script>
 </body>
 </html>
-     
