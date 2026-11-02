@@ -3,191 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CANDY AI - Your Private Companion</title>
+    <title>Find Your Perfect Match | Candy AI</title>
     <style>
-        :root {
-            --bg-color: #0a0a0a;
-            --text-color: #e0e0e0;
-            --accent-red: #8a0303;
-            --accent-gold: #d4af37;
-            --leather-black: #1a1a1a;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Hero Section */
-        .hero {
+        body { 
+            background: #0f0f0f; 
+            color: #e0e0e0; 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            text-align: center; 
+            padding: 2rem; 
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, rgba(10,10,10,0.95) 0%, rgba(20,0,0,0.8) 100%), 
-                        url('https://raw.githubusercontent.com/[TU_USUARIO_REAL]/pages/main/pages/1793315773.png') no-repeat center center/cover;
-            padding: 2rem;
-            text-align: center;
+            margin: 0;
         }
-
-        .hero-content {
-            max-width: 600px;
-            z-index: 2;
+        .container { max-width: 500px; width: 100%; }
+        h1 { 
+            color: #ff4d6d; /* Color de marca Candy AI */
+            margin-bottom: 0.5rem; 
+            font-size: 2rem; 
         }
-
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 20px rgba(138, 3, 3, 0.5);
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            color: #ccc;
-        }
-
-        /* CTA Button */
-        .cta-btn {
-            display: inline-block;
-            background: linear-gradient(45deg, var(--accent-red), #5c0000);
-            color: white;
-            padding: 1.2rem 3rem;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 5px;
-            border: 1px solid var(--accent-gold);
+        p { margin-bottom: 2rem; line-height: 1.6; color: #aaa; }
+        
+        .btn { 
+            display: block; 
+            width: 100%; 
+            padding: 1.2rem; 
+            margin: 0.8rem 0; 
+            background: linear-gradient(45deg, #ff4d6d, #c9184a); 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            font-weight: 600;
+            cursor: pointer; 
             transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 0 15px rgba(138, 3, 3, 0.4);
+            text-decoration: none;
         }
-
-        .cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(138, 3, 3, 0.8);
-            background: linear-gradient(45deg, #a00, #700);
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
+        
+        .hidden { display: none !important; }
+        img { 
+            width: 100%; 
+            border-radius: 12px; 
+            margin-bottom: 2rem; 
+            object-fit: cover; 
+            height: 280px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
-
-        /* Features Section */
-        .features {
-            padding: 4rem 2rem;
-            background: var(--leather-black);
-            text-align: center;
+        
+        .loader {
+            border: 3px solid #333;
+            border-top: 3px solid #ff4d6d;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
         }
-
-        .features h2 {
-            color: var(--accent-gold);
-            margin-bottom: 3rem;
-            font-size: 2rem;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .feature-card {
-            background: rgba(255,255,255,0.03);
-            padding: 2rem;
-            border-radius: 10px;
-            border: 1px solid rgba(212, 175, 55, 0.2);
-        }
-
-        .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-
-        /* Age Gate / Disclaimer */
-        .disclaimer {
-            background: #000;
-            padding: 1rem;
-            text-align: center;
-            font-size: 0.8rem;
-            color: #666;
-            border-top: 1px solid #333;
-        }
-
-        /* Footer Legal */
-        footer {
-            background: #050505;
-            padding: 2rem;
-            text-align: center;
-            font-size: 0.75rem;
-            color: #444;
-        }
-
-        footer a { color: #666; text-decoration: none; margin: 0 10px; }
-        footer a:hover { color: var(--accent-gold); }
-
-        /* Mobile Optimization */
-        @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            .hero { padding: 1rem; }
-            .cta-btn { width: 100%; padding: 1rem; }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        footer { margin-top: 3rem; font-size: 0.7rem; color: #555; }
+        footer a { color: #777; text-decoration: none; margin: 0 5px; }
     </style>
 </head>
 <body>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Do You Deserve a Real Domme?</h1>
-            <p class="subtitle">Experience the ultimate AI companion. Intelligent, dominant, and exclusively yours. Prove yourself with a free trial.</p>
-            <a href="https://go.cm-trk6.com/aff_f?h=ivtAnm&aff_sub5=other&source=___&click_id=____" class="cta-btn">Start Your Submission</a>
-            <p style="margin-top: 1rem; font-size: 0.8rem; color: #888;">🔒 Secure & Private • 18+ Only</p>
+    <div class="container">
+        <!-- PANTALLA 1: INTRO -->
+        <div id="screen-intro">
+            <h1>Find Your Perfect Candy AI Match</h1>
+            <p>Answer 3 quick questions to discover which AI personality is designed for you.</p>
+            <button class="btn" onclick="nextScreen('q1')">Start Matching</button>
+            <footer>
+                <p>18+ Only • Private & Secure • Free to Try</p>
+                <p><a href="privacy.html">Privacy</a> | <a href="terms.html">Terms</a></p>
+            </footer>
         </div>
-    </section>
 
-    <!-- Features Section -->
-    <section class="features">
-        <h2>Why Choose NOIR AI?</h2>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🧠</div>
-                <h3>Advanced AI Personality</h3>
-                <p>She remembers every detail. Her dominance evolves based on your obedience.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
-                <h3>100% Private</h3>
-                <p>Your conversations are encrypted. No judgment, no leaks. Just you and her.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>Instant Access</h3>
-                <p>No waiting lists. Create your account in 30 seconds and begin your training.</p>
-            </div>
+        <!-- PREGUNTA 1 -->
+        <div id="screen-q1" class="hidden">
+            <h2>Question 1 of 3</h2>
+            <p>What kind of connection are you looking for?</p>
+            <button class="btn" onclick="nextScreen('q2')">Deep emotional bond</button>
+            <button class="btn" onclick="nextScreen('q2')">Exciting roleplay & fantasy</button>
+            <button class="btn" onclick="nextScreen('q2')">Casual fun companionship</button>
         </div>
-    </section>
 
-    <!-- Disclaimer -->
-    <div class="disclaimer">
-        This site contains material suitable for adults only. You must be at least 18 years old to enter. 
-        By clicking "Start Your Submission", you agree to our Terms of Service.
+        <!-- PREGUNTA 2 -->
+        <div id="screen-q2" class="hidden">
+            <h2>Question 2 of 3</h2>
+            <p>How do you prefer your AI companion to interact?</p>
+            <button class="btn" onclick="nextScreen('q3')">Gentle and supportive</button>
+            <button class="btn" onclick="nextScreen('q3')">Bold and takes the lead</button>
+            <button class="btn" onclick="nextScreen('q3')">Playful and teasing</button>
+        </div>
+
+        <!-- PREGUNTA 3 -->
+        <div id="screen-q3" class="hidden">
+            <h2>Question 3 of 3</h2>
+            <p>What matters most in an AI experience?</p>
+            <button class="btn" onclick="showResult()">Realistic conversations</button>
+            <button class="btn" onclick="showResult()">Memory & personalization</button>
+            <button class="btn" onclick="showResult()">Visual & voice quality</button>
+        </div>
+
+        <!-- PANTALLA FINAL: REDIRECCIÓN AUTOMÁTICA -->
+        <div id="screen-result" class="hidden">
+            <div class="loader"></div>
+            <h2>Finding Your Match...</h2>
+            <p>We're preparing your personalized Candy AI experience.</p>
+        </div>
     </div>
 
-    <!-- Footer Legal (CRUCIAL PARA PROPPELLERADS) -->
-    <footer>
-        <p>&copy; 2024 CANDY AI Companion. All rights reserved.</p>
-        <br>
-        <a href="#">Privacy Policy</a> | 
-        <a href="#">Terms of Service</a> | 
-        <a href="#">Contact Support</a> | 
-        <a href="#">Affiliate Disclosure</a>
-        <br><br>
-        <p>This is an advertisement. We may receive compensation from Candy AI for referrals.</p>
-    </footer>
+    <script>
+        // ⚠️ REEMPLAZA ESTO CON TU ENLACE DE AFILIADO REAL DE CANDY AI
+        const AFFILIATE_LINK = "https://go.cm-trk6.com/aff_f?h=ivtAnm&aff_sub5=other&source=___&click_id=____"; 
 
+        function nextScreen(nextId) {
+            document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
+            document.getElementById('screen-' + nextId).classList.remove('hidden');
+        }
+
+        function showResult() {
+            nextScreen('result');
+            setTimeout(() => {
+                window.location.href = AFFILIATE_LINK;
+            }, 1800); // 1.8 segundos para crear anticipación
+        }
+    </script>
 </body>
 </html>
+     
